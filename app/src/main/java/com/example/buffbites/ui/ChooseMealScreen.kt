@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -33,16 +31,18 @@ import java.text.NumberFormat
 
 @Composable
 fun ChooseMenuScreen(
-    options: List<MenuItem>,
+    options: List<MenuItem>?,
     onSelectionChanged: (MenuItem) -> Unit,
     modifier: Modifier = Modifier,
+    onCancelButtonClicked: () -> Unit = {},
+    onNextButtonClicked: () -> Unit = {},
 ) {
     var selectedItemName by rememberSaveable { mutableStateOf("") }
 
     Column(
         modifier = modifier
     ) {
-        options.forEach { item ->
+        options?.forEach { item ->
             val onClick = {
                 selectedItemName = item.name
                 onSelectionChanged(item)
@@ -60,8 +60,8 @@ fun ChooseMenuScreen(
         Spacer(modifier = Modifier.weight(1f))
         MenuScreenButtonGroup(
             selectedItemName = selectedItemName,
-            onCancelButtonClicked = { /* TODO */ },
-            onNextButtonClicked = { /* TODO */ },
+            onCancelButtonClicked = { onCancelButtonClicked },
+            onNextButtonClicked = { onNextButtonClicked },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -124,7 +124,6 @@ fun MenuScreenButtonGroup(
         }
         Button(
             modifier = Modifier.weight(1f),
-            // the button is enabled when the user makes a selection
             enabled = selectedItemName.isNotEmpty(),
             onClick = onNextButtonClicked
         ) {
@@ -140,9 +139,9 @@ fun MenuScreenPreview() {
         ChooseMenuScreen(
             options = Datasource.restaurants[0].menuItems,
             onSelectionChanged = {},
-            modifier = Modifier
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
+            modifier = Modifier,
+            onNextButtonClicked = {},
+            onCancelButtonClicked = {},
         )
     }
 }

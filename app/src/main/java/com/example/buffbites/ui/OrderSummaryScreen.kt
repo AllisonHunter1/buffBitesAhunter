@@ -27,7 +27,9 @@ import java.text.NumberFormat
 @Composable
 fun OrderSummaryScreen(
     orderUiState: OrderUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCancelButtonClicked: () -> Unit = {},
+//    onSendButtonClicked: () -> Unit = {},
 ) {
     // Format all prices into strings with dollar sign and 2 decimal places (e.g. $4.99)
     val formattedSubTotal = NumberFormat.getCurrencyInstance().format(orderUiState.orderSubtotal)

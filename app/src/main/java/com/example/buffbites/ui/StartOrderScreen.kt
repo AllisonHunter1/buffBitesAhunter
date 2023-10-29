@@ -19,10 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.buffbites.OrderScreen
 import com.example.buffbites.R
 import com.example.buffbites.data.Datasource
 import com.example.buffbites.model.Restaurant
@@ -31,6 +33,7 @@ import com.example.buffbites.ui.theme.BuffBitesTheme
 @Composable
 fun StartOrderScreen(
     restaurantOptions: List<Restaurant>,
+    onNextButtonClicked: (Restaurant) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,7 +65,7 @@ fun StartOrderScreen(
             ) {
                 restaurantOptions.forEach {
                     Button(
-                        onClick = { /* TODO */ },
+                        onClick = { onNextButtonClicked(it) },
                         modifier = Modifier.widthIn(min = 250.dp),
                     ) {
                         Text(stringResource(it.name))
@@ -73,16 +76,19 @@ fun StartOrderScreen(
     }
 }
 
+
 @Preview
 @Composable
 fun StartOrderPreview(){
     BuffBitesTheme {
         StartOrderScreen(
             restaurantOptions = Datasource.restaurants,
+            onNextButtonClicked = {
+                                  //fill in ?
+            },
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
+                .padding(dimensionResource(R.dimen.padding_medium))
         )
     }
 }
